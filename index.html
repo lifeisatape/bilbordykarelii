@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <style data-vite-theme="" data-inject-first="">:root {
+      --background: 0 0% 100%;
+--foreground: 20 14.3% 4.1%;
+--muted: 60 4.8% 95.9%;
+--muted-foreground: 25 5.3% 44.7%;
+--popover: 0 0% 100%;
+--popover-foreground: 20 14.3% 4.1%;
+--card: 0 0% 100%;
+--card-foreground: 20 14.3% 4.1%;
+--border: 20 5.9% 90%;
+--input: 20 5.9% 90%;
+--primary: 222 47% 11%;
+--primary-foreground: 221 8% 97%;
+--secondary: 60 4.8% 95.9%;
+--secondary-foreground: 24 9.8% 10%;
+--accent: 60 4.8% 95.9%;
+--accent-foreground: 24 9.8% 10%;
+--destructive: 0 84.2% 60.2%;
+--destructive-foreground: 60 9.1% 97.8%;
+--ring: 20 14.3% 4.1%;
+--radius: 0.5rem;
+  }
+  .dark {
+      --background: 240 10% 3.9%;
+--foreground: 0 0% 98%;
+--muted: 240 3.7% 15.9%;
+--muted-foreground: 240 5% 64.9%;
+--popover: 240 10% 3.9%;
+--popover-foreground: 0 0% 98%;
+--card: 240 10% 3.9%;
+--card-foreground: 0 0% 98%;
+--border: 240 3.7% 15.9%;
+--input: 240 3.7% 15.9%;
+--primary: 222 47% 11%;
+--primary-foreground: 221 8% 97%;
+--secondary: 240 3.7% 15.9%;
+--secondary-foreground: 0 0% 98%;
+--accent: 240 3.7% 15.9%;
+--accent-foreground: 0 0% 98%;
+--destructive: 0 62.8% 30.6%;
+--destructive-foreground: 0 0% 98%;
+--ring: 240 4.9% 83.9%;
+--radius: 0.5rem;
+  }</style>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="LINIA" />
+    
+    <script>
+      function initYandexMetrika() {
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        
+        ym(99890504, "init", {
+          clickmap: true,
+          trackLinks: true,
+          accurateTrackBounce: true,
+          webvisor: true,
+          triggerEvent: true,
+          fieldsToHide: ['password', 'email', 'tel']
+        });
+      }
+
+      function checkConsent() {
+        return localStorage.getItem("privacy-consent") === "true";
+      }
+
+      function showConsentBanner() {
+        if (!checkConsent()) { // Now uses the new checkConsent() with expiration
+          const banner = document.createElement('div');
+          banner.id = 'consent-banner';
+          banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#fff;padding:1rem;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:9999;';
+          banner.innerHTML = `
+            <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+              <div style="max-width: 600px; margin: 0 auto; padding: 1rem;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                    <input 
+                      type="checkbox" 
+                      id="consent-checkbox" 
+                      style="
+                        margin: 0.25rem 0 0 0;
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        accent-color: #00BFEA;
+                      "
+                    >
+                    <label 
+                      for="consent-checkbox" 
+                      style="
+                        font-size: 15px;
+                        line-height: 1.5;
+                        color: #4A5568;
+                      "
+                    >
+                      Я соглашаюсь на сбор данных с помощью сервиса Яндекс.Метрика и принимаю
+                      <a 
+                        href="/privacy" 
+                        style="
+                          color: #00BFEA;
+                          text-decoration: none;
+                          border-bottom: 1px solid #00BFEA;
+                          padding-bottom: 1px;
+                        "
+                      >политику конфиденциальности</a>
+                    </label>
+                  </div>
+                  <button 
+                    id="acceptButton" 
+                    onclick="acceptConsent()" 
+                    disabled 
+                    style="
+                      background: #00BFEA;
+                      color: white;
+                      border: none;
+                      padding: 0.75rem 1.5rem;
+                      border-radius: 8px;
+                      font-size: 16px;
+                      font-weight: 500;
+                      cursor: pointer;
+                      transition: all 0.2s;
+                      opacity: 0.5;
+                      width: 100%;
+                      max-width: 200px;
+                      margin: 0 auto;
+                    "
+                  >
+                    Принять
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(banner);
+          
+          document.getElementById('consent-checkbox').addEventListener('change', function() {
+            const acceptButton = document.getElementById('acceptButton');
+            acceptButton.disabled = !this.checked;
+            acceptButton.style.opacity = this.checked ? '1' : '0.5';
+          });
+        } else {
+          initYandexMetrika();
+        }
+      }
+
+      function acceptConsent() {
+        const checkbox = document.getElementById('consent-checkbox');
+        if (checkbox.checked) {
+          const consentData = {
+            value: "true",
+            expires: Date.now() + 31536000000 // 1 год
+          };
+          localStorage.setItem("privacy-consent", JSON.stringify(consentData));
+          document.getElementById('consent-banner').remove();
+          initYandexMetrika();
+        }
+      }
+
+      function checkConsent() {
+        const consentData = localStorage.getItem("privacy-consent");
+        if (consentData) {
+          try {
+            const { value, expires } = JSON.parse(consentData);
+            if (value === "true" && Date.now() < expires) {
+              return true;
+            }
+          } catch (e) {
+            return false;
+          }
+        }
+        return false;
+      }
+
+      function revokeConsent() {
+        localStorage.removeItem("privacy-consent");
+        if (typeof ym === 'function') {
+          ym(99890504, 'disable');
+        }
+        alert('Согласие на сбор данных отозвано. Трекинг отключен.');
+        location.reload();
+      }
+
+      window.addEventListener('load', showConsentBanner);
+    </script>
+    
+    <title>БИЛБОРДЫ ПЕТРОЗАВОДСК КАРЕЛИЯ - Наружная реклама</title>
+    <meta name="description" content="Профессиональное размещение наружной рекламы в Петрозаводске и Карелии. Билборды, призматроны, цифровые экраны. Рассчитайте стоимость онлайн!" />
+    <meta name="keywords" content="наружная реклама Петрозаводск, билборды Карелия, digital реклама, призматроны, стоимость билборда, заказать билборд, рекламные конструкции, наружная реклама цена" />
+    
+    <!-- Open Graph / Facebook / Telegram -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="БИЛБОРДЫ ПЕТРОЗАВОДСК КАРЕЛИЯ" />
+    <meta property="og:description" content="Наружная реклама в Петрозаводске и Карелии. Билборды, призматроны, digital-форматы." />
+    <meta property="og:url" content="https://БИЛБОРДЫКАРЕЛИИ.РФ" />
+    <meta property="og:image" content="/images/banner-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://БИЛБОРДЫКАРЕЛИИ.РФ" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="БИЛБОРДЫ ПЕТРОЗАВОДСК КАРЕЛИЯ" />
+    <meta name="twitter:description" content="Наружная реклама в Петрозаводске и Карелии. Билборды, призматроны, digital-форматы." />
+    <meta name="twitter:image" content="/images/banner-share.jpg" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    <script type="module" crossorigin src="/assets/index-CF_NtUXF.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BMt966RK.css">
+  </head>
+  <body>
+    
+    <div id="root"></div>
+  </body>
+</html>
